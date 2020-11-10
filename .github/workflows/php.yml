@@ -7,28 +7,18 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  my-job:
+    name: My Job
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate
-
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
-
-    - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress --no-suggest
+    - name: Print a greeting
+      env:
+        MY_VAR: Hi there! My name is
+        FIRST_NAME: Mona
+        MIDDLE_NAME: The
+        LAST_NAME: Octocat
+      run: |
+        echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
